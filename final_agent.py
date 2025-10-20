@@ -1,27 +1,38 @@
 from strands import Agent, tool
 import boto3
+import os
 from strands.models import BedrockModel
 from strands.agent.conversation_manager import SlidingWindowConversationManager
 
 
-AWS_DEFAULT_REGION= "<region>"
-AWS_ACCESS_KEY_ID= "<access_key>"
-AWS_SECRET_ACCESS_KEY= "<secret_key>"
-AWS_SESSION_TOKEN="<access_token>"
+# Load .env file
+load_dotenv()
+
+# Read AWS credentials and config from environment
+AWS_DEFAULT_REGION = os.getenv("AWS_DEFAULT_REGION")
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_SESSION_TOKEN = os.getenv("AWS_SESSION_TOKEN")  # Optional if using long-term creds
+
 # Create a custom boto3 session
 session = boto3.Session(
     aws_access_key_id=AWS_ACCESS_KEY_ID,
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-    aws_session_token=AWS_SESSION_TOKEN,  # If using temporary credentials
+    aws_session_token=AWS_SESSION_TOKEN,
     region_name=AWS_DEFAULT_REGION,
 )
 
-# Create a Bedrock model with the custom session
+# Read model config from environment
+BEDROCK_MODEL_ID = os.getenv("BEDROCK_MODEL_ID", "us.anthropic.claude-3-7-sonnet-20250219-v1:0")
+BEDROCK_TEMPERATURE = float(os.getenv("BEDROCK_TEMPERATURE", 0.3))
+BEDROCK_TOP_P = float(os.getenv("BEDROCK_TOP_P", 0.8))
+
+# Create the Bedrock model using environment configuration
 bedrock_model = BedrockModel(
-    model_id="us.anthropic.claude-3-7-sonnet-20250219-v1:0",
+    model_id=BEDROCK_MODEL_ID,
     boto_session=session,
-    temperature=0.3,
-    top_p=0.8,
+    temperature=BEDROCK_TEMPERATURE,
+    top_p=BEDROCK_TOP_P,
 )
 
 
