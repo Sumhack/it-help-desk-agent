@@ -23,11 +23,9 @@ The agent comes with a suite of IT Helpdesk tools, including:
 ---
 
 ## 🛠 Tech Stack  
-- **Framework**: [Strands](https://github.com/strands-framework) – for agent and tool orchestration  
-- **LLM**: [Anthropic Claude](https://www.anthropic.com/) via **Amazon Bedrock**  
+- **Framework**: Strands Framework for agent and tool orchestration  
+- **LLM**: Anthropic Claude ia **Amazon Bedrock**  
 - **Cloud**: AWS (planned deployment on **AgentCore** for scalable hosting)  
 - **Languages**: Python  
 
 ---
-
-## 📂 Repository Structure  
